@@ -16,7 +16,7 @@ library(gmodels)
 set.seed(6678)
 sample_ratio <- 0.85
 theta <- 0.05
-pop_pos_obs_ratio <- 0.05 
+pop_pos_obs_ratio <- 0.15 
 
 #----------------------------------------------------------------------------
 #
@@ -25,16 +25,16 @@ pop_pos_obs_ratio <- 0.05
 #----------------------------------------------------------------------------
 
 # Load data into system 
-spam <- read.csv("D:\\R_Projects\\10weeks\\10Weeks\\week_02_Spambase\\data\\spambase.data", header=FALSE)
+spam <- read.csv("C:\\Users\\Patrick\\OneDrive\\R_Projects\\10_Weeks\\week_02_Spambase\\data\\spambase.data", header=FALSE)
 # add column names 
-cols <- read.table("D:\\R_Projects\\10weeks\\10Weeks\\week_02_Spambase\\data\\cols.txt", quote="\"", stringsAsFactors=FALSE)
+cols <- read.table("C:\\Users\\Patrick\\OneDrive\\R_Projects\\10_Weeks\\week_02_Spambase\\data\\cols.txt", quote="\"", stringsAsFactors=FALSE)
 colnames(spam) <- cols$V1
 rm(cols)
 spam$class <- factor(spam$class, labels=c("spam", "ham"))
 
 # now cut down the positive obs to a realistic level
-pos_obs_pop <- subset(spam, class=="ham")
-neg_obs_pop <- subset(spam, class=="spam")
+neg_obs_pop <- subset(spam, class=="ham")
+pos_obs_pop <- subset(spam, class=="spam")
 pos_obs_keep <- sample(1:nrow(pos_obs_pop), nrow(pos_obs_pop) * pop_pos_obs_ratio)
 pos_obs_pop <- pos_obs_pop[pos_obs_keep,]
 spam <- rbind(pos_obs_pop, neg_obs_pop)
@@ -106,8 +106,8 @@ rm(inTrain)
 # initially theta is set to 5% which means that 95% of 
 # the observations in the training set are positive
 
-pos_obs <- subset(train, class=="ham")
-neg_obs <- subset(train, class=="spam")
+neg_obs <- subset(train, class=="ham")
+pos_obs <- subset(train, class=="spam")
 neg_obs_keep <- sample(1:nrow(neg_obs), nrow(neg_obs) * theta)
 neg_obs <- neg_obs[neg_obs_keep,]
 unbal_train <- rbind(pos_obs, neg_obs)
